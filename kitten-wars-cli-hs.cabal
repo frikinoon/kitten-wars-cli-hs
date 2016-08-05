@@ -3,7 +3,6 @@ version:             0.1.0.0
 synopsis:            Haskell client for kitten-wars
 description:         Please see README.md
 homepage:            https://github.com/githubuser/kitten-wars-cli-hs#readme
-license:             (Undecided)
 license-file:        LICENSE
 author:              Kevin King Sancho
 maintainer:          kevinks.et@gmail.com
@@ -16,4 +15,5 @@ executable kitten-wars-cli-hs
   hs-source-dirs:      src
   main-is:             Main.hs
   default-language:    Haskell2010
-  build-depends:       base >= 4.7 && < 5
+  build-depends:       websockets
+                     , base >= 4.7 && < 5
