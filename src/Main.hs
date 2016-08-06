@@ -4,7 +4,7 @@ module Main
        ) where
 
 --------------------------------------------------------------------------------
-import           Control.Concurrent       (forkIO)
+import           Control.Concurrent       (forkIO, killThread, myThreadId)
 import           Control.Monad            (forever, unless)
 import           Control.Monad.IO.Class   (liftIO)
 import           Control.Exception        (try)
@@ -23,7 +23,7 @@ app conn = do
   _ <- forkIO $ forever $ do
     result <- try $ WS.receiveData conn :: IO (Either WS.ConnectionException Text)
     case result of
-      Left ex -> putStrLn $ "Caught exception when reading: " ++ show ex
+      Left _ -> killThread =<< myThreadId
       Right val -> liftIO $ T.putStrLn val
 
   -- Read from stdin and write to WS
