@@ -32,10 +32,11 @@ app conn = do
 
   -- Read from stdin and write to WS
   let loop = do
+        putStrLn "Type in your action: "
         line <- T.getLine
         action <- handleInput $ T.unpack line
         case action of
-          Nothing -> putStrLn "Dead"
+          Nothing -> putStrLn "Invalid input. Try again:"
           Just a -> WS.sendTextData conn a :: IO ()
         loop
 
