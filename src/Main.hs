@@ -39,4 +39,4 @@ app conn = do
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = withSocketsDo $ WS.runClient "192.168.1.2" 8765 "/" app
+main = withSocketsDo $ WS.runClient "192.168.1.2" 8080 "/" app
