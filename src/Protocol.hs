@@ -40,3 +40,6 @@ instance ToJSON Action where
   toJSON (Move k d) =
     object [kittenKey .= k,
             dirKey .= d]
+
+mkMove :: Text -> Direction -> Action
+mkMove n d = Move { kitten = Kitten n, direction = d }

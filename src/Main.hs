@@ -5,7 +5,7 @@ module Main
 
 --------------------------------------------------------------------------------
 import           Control.Concurrent       (forkIO, killThread, myThreadId)
-import           Control.Monad            (forever, unless)
+import           Control.Monad            (forever)
 import           Control.Monad.IO.Class   (liftIO)
 import           Control.Exception        (try)
 import           Network.Socket           (withSocketsDo)
@@ -13,6 +13,10 @@ import           Data.Text                (Text)
 import qualified Data.Text                as T
 import qualified Data.Text.IO             as T
 import qualified Network.WebSockets       as WS
+import           Data.Aeson
+import           Data.ByteString.Lazy.Internal (ByteString)
+
+import Protocol
 
 --------------------------------------------------------------------------------
 app :: WS.ClientApp ()
@@ -29,13 +33,18 @@ app conn = do
   -- Read from stdin and write to WS
   let loop = do
         line <- T.getLine
-        result <- try $ unless (T.null line) $ WS.sendTextData conn line :: IO (Either WS.ConnectionException ())
-        case result of
-          Left ex -> putStrLn $ "Caught exception when sending: " ++ show ex
-          Right _ -> loop
+        action <- handleInput $ T.unpack line
+        case action of
+          Nothing -> putStrLn "Dead"
+          Just a -> WS.sendTextData conn a :: IO ()
+        loop
 
-  loop
+  _ <- loop
   WS.sendClose conn ("Bye!" :: Text)
+
+handleInput :: String -> IO (Maybe ByteString)
+handleInput "move" = pure $ Just $ encode $ mkMove "Kev" MvUp
+handleInput _ = pure Nothing
 
 --------------------------------------------------------------------------------
 main :: IO ()
