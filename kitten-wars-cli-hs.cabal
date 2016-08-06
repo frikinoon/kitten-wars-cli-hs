@@ -20,6 +20,8 @@ executable kitten-wars-cli-hs
                      , websockets
                      , network
                      , transformers
+                     , aeson
+                     , bytestring
                      , base >= 4.7 && < 5
 
 library
@@ -31,6 +33,8 @@ library
                           , websockets
                           , network
                           , transformers
+                          , aeson
+                          , bytestring
                           , HUnit
                           , base >= 4.7 && <5
 
