@@ -14,9 +14,31 @@ cabal-version:       >=1.10
 executable kitten-wars-cli-hs
   hs-source-dirs:      src
   main-is:             Main.hs
+  ghc-options:         -Wall -fwarn-tabs
   default-language:    Haskell2010
   build-depends:       text
                      , websockets
                      , network
                      , transformers
                      , base >= 4.7 && < 5
+
+library
+        exposed-modules:    Main
+        ghc-options:        -Wall -fwarn-tabs
+        hs-source-dirs:     src
+        default-language:   Haskell2010
+        build-depends:      text
+                          , websockets
+                          , network
+                          , transformers
+                          , HUnit
+                          , base >= 4.7 && <5
+
+
+Test-Suite test-send-actions
+        type:               detailed-0.9
+        test-module:        Tests
+        hs-source-dirs:     tests
+        default-language:   Haskell2010
+        build-depends:      base >= 4.7 && <5
+                          , Cabal

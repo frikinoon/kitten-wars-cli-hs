@@ -4,7 +4,7 @@ module Main
        ) where
 
 --------------------------------------------------------------------------------
-import           Control.Concurrent       (forkIO, threadDelay)
+import           Control.Concurrent       (forkIO)
 import           Control.Monad            (forever, unless)
 import           Control.Monad.IO.Class   (liftIO)
 import           Control.Exception        (try)
@@ -32,7 +32,7 @@ app conn = do
         result <- try $ unless (T.null line) $ WS.sendTextData conn line :: IO (Either WS.ConnectionException ())
         case result of
           Left ex -> putStrLn $ "Caught exception when sending: " ++ show ex
-          Right val -> loop
+          Right _ -> loop
 
   loop
   WS.sendClose conn ("Bye!" :: Text)
